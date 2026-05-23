@@ -1,0 +1,16 @@
+{
+  "name": "flappy-miden",
+  "version": "1.0.0",
+  "description": "Flappy Bird with on-chain scores on Miden testnet (Vercel + Supabase)",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
