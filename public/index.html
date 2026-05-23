@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flappy Miden — Fly On-Chain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;700&family=Bungee&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines"></div>
+
+<header class="hud">
+    <div class="hud-left">
+        <div class="logo">
+            <span class="logo-bracket">[</span><span>FLAPPY/MIDEN</span><span class="logo-bracket">]</span>
+        </div>
+        <div class="status-pill" id="walletStatus">
+            <span class="status-dot"></span>
+            <span id="walletText">NOT CONNECTED</span>
+        </div>
+    </div>
+    <div class="hud-right">
+        <button class="btn-pixel" id="connectBtn">CONNECT WALLET</button>
+    </div>
+</header>
+
+<main class="container">
+    <aside class="panel">
+        <h3 class="panel-title">// PLAYER STATS</h3>
+        <div class="stat-block">
+            <div class="stat-label">ADDRESS</div>
+            <div class="stat-value" id="statAddress">0x000...000</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-label">HIGH SCORE</div>
+            <div class="stat-value stat-big" id="statHighScore">0</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-label">GAMES PLAYED</div>
+            <div class="stat-value" id="statGames">0</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-label">GLOBAL RECORD</div>
+            <div class="stat-value stat-accent" id="statGlobal">—</div>
+        </div>
+    </aside>
+
+    <section class="game-section">
+        <div class="canvas-frame">
+            <canvas id="gameCanvas" width="400" height="560"></canvas>
+            
+            <div class="overlay" id="startScreen">
+                <h1 class="game-title">FLAPPY<br><span>MIDEN</span></h1>
+                <p class="game-subtitle">>> SPACE OR CLICK TO FLY <<</p>
+                <button class="btn-pixel btn-big" id="startBtn">START GAME</button>
+                <p class="hint">↑ proof-of-flight on miden testnet</p>
+            </div>
+
+            <div class="overlay overlay-hidden" id="gameOverScreen">
+                <h2 class="gameover-title">GAME OVER</h2>
+                <div class="score-display">
+                    <div class="score-label">YOUR SCORE</div>
+                    <div class="score-value" id="finalScore">0</div>
+                </div>
+                <div class="score-display" id="newRecordBanner" style="display:none;">
+                    <div class="record-badge">★ NEW RECORD ★</div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn-pixel" id="restartBtn">RESTART</button>
+                    <button class="btn-pixel btn-accent" id="submitBtn">SUBMIT TO CHAIN</button>
+                </div>
+            </div>
+
+            <div class="overlay overlay-hidden" id="txScreen">
+                <h2 class="tx-title">SUBMITTING...</h2>
+                <div class="loader"><div class="loader-bar"></div></div>
+                <p class="tx-status" id="txStatus">Please approve in your wallet...</p>
+            </div>
+
+            <div class="overlay overlay-hidden" id="successScreen">
+                <h2 class="success-title">✓ ON-CHAIN</h2>
+                <p class="success-text">Your score is now part of Miden history.</p>
+                <div class="tx-hash-display">
+                    <div class="stat-label">TX HASH</div>
+                    <div class="tx-hash" id="txHashDisplay">0x...</div>
+                </div>
+                <a id="explorerLink" href="#" target="_blank" class="btn-pixel btn-small">VIEW ON EXPLORER</a>
+                <button class="btn-pixel" id="successCloseBtn" style="margin-top:12px;">CONTINUE</button>
+            </div>
+        </div>
+        <div class="ingame-score" id="ingameScore">0</div>
+    </section>
+
+    <aside class="panel">
+        <h3 class="panel-title">// LEADERBOARD</h3>
+        <div class="leaderboard-list" id="leaderboardList">
+            <div class="lb-item lb-empty"><span>No scores yet.</span></div>
+        </div>
+        <div class="panel-footer">
+            <span class="dot-blink"></span>
+            <span class="footer-text">MIDEN TESTNET LIVE</span>
+        </div>
+    </aside>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-col"><span class="footer-label">NETWORK:</span><span class="footer-val">miden-testnet</span></div>
+    <div class="footer-col"><span class="footer-label">MODE:</span><span class="footer-val">notes-based</span></div>
+    <div class="footer-col"><span class="footer-label">v1.0.0</span></div>
+</footer>
+
+<!-- Modal for wallet installation -->
+<div id="installModal" class="modal modal-hidden">
+    <div class="modal-content">
+        <h2 class="modal-title">⚠ MIDEN WALLET REQUIRED</h2>
+        <p class="modal-text">برای بازی نیاز به Miden Wallet داری.</p>
+        <p class="modal-text-small">یک extension رایگان برای Chrome:</p>
+        <a href="https://chromewebstore.google.com/detail/miden-wallet/ablmompanofnodfdkgchkpmphailefpb" target="_blank" class="btn-pixel btn-accent btn-big" style="margin-top: 20px;">
+            INSTALL MIDEN WALLET
+        </a>
+        <p class="modal-hint">بعد از نصب، صفحه رو رفرش کن.</p>
+        <button class="btn-pixel btn-ghost" id="closeModalBtn" style="margin-top: 16px;">CLOSE</button>
+    </div>
+</div>
+
+<script src="game.js"></script>
+<script src="miden.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
